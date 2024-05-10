@@ -28,7 +28,7 @@ public class ItemsController : ControllerBase
         return Ok(item);
     }
     [HttpPost]
-    public IActionResult Post(Item item)
+    public IActionResult Create([FromForm]Item item)
     {
         _repository.Create(item);
         return Ok(item);
