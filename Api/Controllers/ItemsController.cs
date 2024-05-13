@@ -28,8 +28,14 @@ public class ItemsController : ControllerBase
         return Ok(item);
     }
     [HttpPost]
-    public IActionResult Create([FromForm]Item item)
+    public IActionResult Create([FromForm]ItemViewModel itemView)
     {
+        var filePath = Path.Combine("Storage", "Profile", itemView.ImageFile.FileName);
+
+        using Stream fileStream = new FileStream(filePath, FileMode.Create);
+        itemView.ImageFile.CopyTo(fileStream);
+
+        var item = new Item(itemView.Name, itemView.Description, filePath);
         _repository.Create(item);
         return Ok(item);
     }
